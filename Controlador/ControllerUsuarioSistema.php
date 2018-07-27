@@ -148,7 +148,7 @@ class ControllerUsuarioSistema
                 $usuarioRet = self::popularUsuario($item_lista); // retorna um objeto cliente preenchido
             }
 
-            return $usuarioRet->getId();
+            return $usuarioRet;
 
         }catch (PDOException $e) {
             print "Ocorreu um erro ao executar a consulta";
