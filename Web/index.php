@@ -349,13 +349,13 @@ $produtos = ControllerProdutos::buscarTodos();
 
 
 
-
+</div>
                                        <?php
 
 
                                         }
 									?>
-                                    </div>
+                                    
 
 
 						<div role="tabpanel" class="tab-pane fade" id="audio" aria-labelledby="audio-tab">
