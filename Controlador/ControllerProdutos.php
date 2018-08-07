@@ -8,6 +8,7 @@
 
 require_once "../Modelo/Produto.class.php";
 require_once "Conexao.php";
+require_once "../Modelo/Categoria.class.php";
 
 
 class ControllerProdutos
@@ -125,6 +126,27 @@ class ControllerProdutos
             return $p_sql->execute();
         } catch (PDOException $e) {
             print "Ocorreu um erro ao executar a alteração";
+        }
+    }
+
+    public static function buscarProdutoPorCategoria($categoria)
+    {
+        try {
+            $sql = "SELECT p.*, m.descricaoMarca, c.descricaoCategoria FROM produto p INNER JOIN marca m ON m.id = p.FKmarca INNER JOIN categoria c ON c.id = p.FKcategoria WHERE FKcategoria = :categoria";
+
+            $p_sql = Conexao::getInstance()->prepare($sql);
+            $p_sql->bindValue(":categoria", $categoria);
+            $p_sql->execute(); // pego a conexão com o banco **
+            $lista = $p_sql->fetchAll(PDO::FETCH_ASSOC); // JOGO O RESULTADO PARA DENTRO DA LISTA
+
+            $vetor_lista = array(); // vetor de objetos
+            foreach ($lista as $item_lista) {
+                $vetor_lista[] = self::popularProduto($item_lista); // retorna um objeto produto preenchido
+            }
+            return $vetor_lista;
+
+        } catch (Exception $e) {
+            print "Ocorreu um erro ao executar a consulta - BUSCAR TODOS";
         }
     }
 

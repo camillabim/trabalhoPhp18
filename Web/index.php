@@ -7,8 +7,10 @@ License URL: http://creativecommons.org/licenses/by/3.0/
 <?php
 
 require_once "../Controlador/ControllerProdutos.php";
+require_once "../Controlador/ControllerCategoria.php";
 
 $produtos = ControllerProdutos::buscarTodos();
+$categorias = ControllerCategoria::buscarTodos();
 
 ?>
 
@@ -23,6 +25,7 @@ $produtos = ControllerProdutos::buscarTodos();
 <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false);
 	function hideURLbar(){ window.scrollTo(0,1); } </script>
 <!-- //for-mobile-apps -->
+<!-- Custom Theme files -->
 <!-- Custom Theme files -->
 <link href="css/bootstrap.css" rel="stylesheet" type="text/css" media="all" />
 <link href="css/style.css" rel="stylesheet" type="text/css" media="all" />
@@ -56,89 +59,7 @@ $produtos = ControllerProdutos::buscarTodos();
 	<script type="text/javascript" src="js/bootstrap-3.1.1.min.js"></script>
 	<!-- //for bootstrap working -->
 	<!-- header modal -->
-	<div class="modal fade" id="myModal88" tabindex="-1" role="dialog" aria-labelledby="myModal88"
-		aria-hidden="true">
-		<div class="modal-dialog modal-lg">
-			<div class="modal-content">
-				<div class="modal-header">
-					<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-						&times;</button>
-					<h4 class="modal-title" id="myModalLabel">Don't Wait, Login now!</h4>
-				</div>
-				<div class="modal-body modal-body-sub">
-					<div class="row">
-						<div class="col-md-8 modal_body_left modal_body_left1" style="border-right: 1px dotted #C2C2C2;padding-right:3em;">
-							<div class="sap_tabs">	
-								<div id="horizontalTab" style="display: block; width: 100%; margin: 0px;">
-									<ul>
-										<li class="resp-tab-item" aria-controls="tab_item-0"><span>Sign in</span></li>
-										<li class="resp-tab-item" aria-controls="tab_item-1"><span>Sign up</span></li>
-									</ul>		
-									<div class="tab-1 resp-tab-content" aria-labelledby="tab_item-0">
-										<div class="facts">
-											<div class="register">
-												<form action="#" method="post">			
-													<input name="Email" placeholder="Email Address" type="text" required="">						
-													<input name="Password" placeholder="Password" type="password" required="">										
-													<div class="sign-up">
-														<input type="submit" value="Sign in"/>
-													</div>
-												</form>
-											</div>
-										</div> 
-									</div>	 
-									<div class="tab-2 resp-tab-content" aria-labelledby="tab_item-1">
-										<div class="facts">
-											<div class="register">
-												<form action="#" method="post">			
-													<input placeholder="Name" name="Name" type="text" required="">
-													<input placeholder="Email Address" name="Email" type="email" required="">	
-													<input placeholder="Password" name="Password" type="password" required="">	
-													<input placeholder="Confirm Password" name="Password" type="password" required="">
-													<div class="sign-up">
-														<input type="submit" value="Create Account"/>
-													</div>
-												</form>
-											</div>
-										</div>
-									</div> 			        					            	      
-								</div>	
-							</div>
-							<script src="js/easyResponsiveTabs.js" type="text/javascript"></script>
-							<script type="text/javascript">
-								$(document).ready(function () {
-									$('#horizontalTab').easyResponsiveTabs({
-										type: 'default', //Types: default, vertical, accordion           
-										width: 'auto', //auto or any width like 600px
-										fit: true   // 100% fit in a container
-									});
-								});
-							</script>
-							<div id="OR" class="hidden-xs">OR</div>
-						</div>
-						<div class="col-md-4 modal_body_right modal_body_right1">
-							<div class="row text-center sign-with">
-								<div class="col-md-12">
-									<h3 class="other-nw">Sign in with</h3>
-								</div>
-								<div class="col-md-12">
-									<ul class="social">
-										<li class="social_facebook"><a href="#" class="entypo-facebook"></a></li>
-										<li class="social_dribbble"><a href="#" class="entypo-dribbble"></a></li>
-										<li class="social_twitter"><a href="#" class="entypo-twitter"></a></li>
-										<li class="social_behance"><a href="#" class="entypo-behance"></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<script>
-		$('#myModal88').modal('show');
-	</script>  
+
 	<!-- header modal -->
 	<!-- header -->
 	<div class="header" id="home1">
@@ -159,14 +80,10 @@ $produtos = ControllerProdutos::buscarTodos();
 					</form>
 				</div>
 			</div>
-			<div class="cart cart box_1"> 
-				<form action="#" method="post" class="last"> 
-					<input type="hidden" name="cmd" value="_cart" />
-					<input type="hidden" name="display" value="1" />
-					<button class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></button>
-				</form>   
-			</div>  
-		</div>
+            <div class="cart cart box_1">
+                    <a href="Carrinho.php" class="w3view-cart" type="submit" name="submit" value=""><i class="fa fa-cart-arrow-down" aria-hidden="true"></i></a>
+            </div>
+        </div>
 	</div>
 	<!-- //header -->
 	<!-- navigation -->
@@ -194,24 +111,16 @@ $produtos = ControllerProdutos::buscarTodos();
 								<div class="row">
 									<div class="col-sm-3">
 										<ul class="multi-column-dropdown">
-											<h6>Celulares</h6>
-											<li><a href="products.html">Celulares</a></li>
-											<li><a href="products.html">Mp3 Players <span>New</span></a></li>
+											<h6>Categoria</h6>
+											<?php
+											    foreach ($categorias as $categoria){
+											        echo "<li><a href='listaProdutos.php?categoria=".$categoria->getId()."'>".$categoria->getDescricao()."</a></li>";
+                                                }
+											?>
+
+
 									</div>
-									<div class="col-sm-3">
-										<ul class="multi-column-dropdown">
-											<h6>Acessórios</h6>
-											<li><a href="products1.html">Notebook</a></li>
-											<li><a href="products1.html">Desktop</a></li>
-										</ul>
-									</div>
-									<div class="col-sm-2">
-										<ul class="multi-column-dropdown">
-											<h6>Casa</h6>
-											<li><a href="products2.html">Tv</a></li>
-											<li><a href="products2.html">Camera</a></li>
-										</ul>
-									</div>
+
 									<div class="col-sm-4">
 										<div class="w3ls_products_pos">
 											<h4>30%<i>Desconto/-</i></h4>
@@ -317,18 +226,19 @@ $produtos = ControllerProdutos::buscarTodos();
                                         <?php
                                         echo "<a href='detalhesproduto.php?idproduto=".$produto->getId()."' title='Detalhes' alt='Detalhes'>".$produto->getDescricao(). "</a>";
                                         ?>
-									<div class="simpleCart_shelfItem">
 
+                                        <div class="simpleCart_shelfItem">
                                         <?php
                                         echo "R$ "."<a href='detalhesproduto.php?idproduto=".$produto->getId()."' title='Detalhes' alt='Detalhes'>".$produto->getValorUnitario(). "</a>";
                                         ?>
+
 										<form action="#" method="post">
 											<input type="hidden" name="cmd" value="_cart">
 											<input type="hidden" name="add" value="1">
 											<input type="hidden" name="w3ls_item" value="Mobile Phone1">
 											<input type="hidden" name="amount" value="350.00">
 
-											<button type="submit" class="w3ls-cart">Adicionar no carrinho</button>
+                                            <a href="../Controlador/gerenciarCarrinho.php?adicionar=true&produto=<?php echo $produto->getId();?>" class="btn btn-info">Adicionar no Carrinho</a>
 
 										</form>
 									</div>
@@ -343,7 +253,7 @@ $produtos = ControllerProdutos::buscarTodos();
 
 
 
-
+                                            </div>
 
 
 
@@ -355,7 +265,7 @@ $produtos = ControllerProdutos::buscarTodos();
 
                                         }
 									?>
-                                    </div>
+
 
 
 						<div role="tabpanel" class="tab-pane fade" id="audio" aria-labelledby="audio-tab">
@@ -1177,7 +1087,7 @@ $produtos = ControllerProdutos::buscarTodos();
 		<div class="agileinfo_banner_bottom1_grids">
 			<div class="col-md-7 agileinfo_banner_bottom1_grid_left">
 				<h3>Grand Opening Event With flat<span>20% <i>Discount</i></span></h3>
-				<a href="products.html">Shop Now</a>
+				<a href="listaProdutos.php">Shop Now</a>
 			</div>
 			<div class="col-md-5 agileinfo_banner_bottom1_grid_right">
 				<h4>hot deal</h4>
@@ -1213,16 +1123,16 @@ $produtos = ControllerProdutos::buscarTodos();
 						<li><a href="mail.html">Fale Conosco</a></li>
 						<li><a href="codes.html">Short Codes</a></li>
 						<li><a href="faq.html">FAQ's</a></li>
-						<li><a href="products.html">Special Produtos</a></li>
+						<li><a href="listaProdutos.php">Special Produtos</a></li>
 					</ul>
 				</div>
 				<div class="col-md-3 w3_footer_grid">
 					<h3>Categoria</h3>
 					<ul class="info"> 
-						<li><a href="products.html">Celulares</a></li>
-						<li><a href="products1.html">Laptops</a></li>
-						<li><a href="products.html">Purificadores</a></li>
-						<li><a href="products1.html">Wearables</a></li>
+						<li><a href="listaProdutos.php">Celulares</a></li>
+						<li><a href="catnotebook.php">Laptops</a></li>
+						<li><a href="listaProdutos.php">Purificadores</a></li>
+						<li><a href="catnotebook.php">Wearables</a></li>
 						<li><a href="products2.html">Cozinha</a></li>
 					</ul>
 				</div>
@@ -1230,7 +1140,7 @@ $produtos = ControllerProdutos::buscarTodos();
 					<h3>Profile</h3>
 					<ul class="info"> 
 						<li><a href="index.html">Página Inicial</a></li>
-						<li><a href="products.html">Today's Deals</a></li>
+						<li><a href="listaProdutos.php">Today's Deals</a></li>
 					</ul>
 					<h4>Follow Us</h4>
 					<div class="agileits_social_button">
@@ -1258,21 +1168,7 @@ $produtos = ControllerProdutos::buscarTodos();
 	</div>
 	<!-- //footer --> 
 	<!-- cart-js -->
-	<script src="js/minicart.js"></script>
-	<script>
-        w3ls.render();
 
-        w3ls.cart.on('w3sb_checkout', function (evt) {
-        	var items, len, i;
-
-        	if (this.subtotal() > 0) {
-        		items = this.items();
-
-        		for (i = 0, len = items.length; i < len; i++) { 
-        		}
-        	}
-        });
-    </script>  
 	<!-- //cart-js -->   
 </body>
 </html>
